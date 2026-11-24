@@ -25,3 +25,7 @@ On Windows with PowerShell 7:
 The helpers are generic reference implementations. Path validation is lexical only, not filesystem confinement; atomic replacement assumes a trusted directory and does not guarantee recovery after power loss or serialize competing writers. PowerShell parsing does not prove runtime behavior.
 
 Private product validation remains separate. Shared code may count as preflight evidence only when exact tested source bytes match the private candidate; synthetic tests do not establish actual VM, model, Docker, installation or production acceptance. Never add secrets, private source, private artifacts or VM access to this repository.
+
+## Generic contract and DAG checks
+
+The independent Windows and Linux jobs also run synthetic qualification, immutable evidence binding and dependency-frontier tests. These pure generic helpers use invented goals, paths and fixtures. They have no private checkout, production authorization, or model execution. Private candidates may reuse evidence only for byte-identical files.
