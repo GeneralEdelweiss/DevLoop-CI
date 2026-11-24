@@ -24,4 +24,28 @@ jobs:
           python --version
           git --version
       - name: Synthetic Windows regression checks
-        run: python -B -m unittest -v test_cloud_smoke test_acceptance_contract
+        run: python -B -m unittest -v test_cloud_smoke test_acceptance_contract test_ci_contracts test_git_contracts
+      - name: PowerShell parser regression
+        shell: pwsh
+        run: ./Test-PowerShellContracts.ps1
+  linux:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
+        with:
+          python-version: '3.12'
+      - name: Verify hosted Linux and exact checkout
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$RUNNER_OS" = Linux
+          test "$RUNNER_ENVIRONMENT" = github-hosted
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          python --version
+          git --version
+      - name: Synthetic cross-platform regression checks
+        run: python -B -m unittest -v test_cloud_smoke test_acceptance_contract test_ci_contracts test_git_contracts
