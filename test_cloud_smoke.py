@@ -66,7 +66,13 @@ class CloudSmoke(unittest.TestCase):
             git(original, 'commit', '-qm', 'baseline')
             base = git(original, 'rev-parse', 'HEAD')
             candidate = root / 'candidate'
-            git(root, 'clone', '-q', '--no-local', str(original), str(candidate))
+            # Force the CRLF-prone Windows clone setting; configure before checkout.
+            git(root, '-c', 'core.autocrlf=true', 'clone', '-q', '--no-local',
+                '--no-checkout', str(original), str(candidate))
+            git(candidate, 'config', 'core.autocrlf', 'false')
+            git(candidate, 'checkout', '--detach', 'HEAD')
+            self.assertEqual((candidate / 'sample.py').read_bytes(), b'value = 1\n')
+            self.assertEqual(git(candidate, 'status', '--porcelain'), '')
             git(candidate, 'config', 'user.name', 'CI fixture')
             git(candidate, 'config', 'user.email', 'ci@example.invalid')
             (candidate / 'sample.py').write_bytes(b'value = 2\n')
