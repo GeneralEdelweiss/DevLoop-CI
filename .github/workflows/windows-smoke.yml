@@ -24,7 +24,7 @@ jobs:
           python --version
           git --version
       - name: Synthetic Windows regression checks
-        run: python -B -m unittest -v test_cloud_smoke test_acceptance_contract test_ci_contracts test_git_contracts
+        run: python -B -m unittest -v test_cloud_smoke test_acceptance_contract test_ci_contracts test_git_contracts test_ci_admission
       - name: PowerShell parser regression
         shell: pwsh
         run: ./Test-PowerShellContracts.ps1
@@ -48,4 +48,4 @@ jobs:
           python --version
           git --version
       - name: Synthetic cross-platform regression checks
-        run: python -B -m unittest -v test_cloud_smoke test_acceptance_contract test_ci_contracts test_git_contracts
+        run: python -B -m unittest -v test_cloud_smoke test_acceptance_contract test_ci_contracts test_git_contracts test_ci_admission
