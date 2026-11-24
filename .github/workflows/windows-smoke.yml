@@ -24,4 +24,4 @@ jobs:
           python --version
           git --version
       - name: Synthetic Windows regression checks
-        run: python -B -m unittest -v test_cloud_smoke
+        run: python -B -m unittest -v test_cloud_smoke test_acceptance_contract
