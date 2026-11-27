@@ -9,12 +9,12 @@ class ExpressionTests(unittest.TestCase):
         self.assertEqual(len(variants),3)
         self.assertEqual([m["kind"] for _,m in variants],["predicate","arithmetic","arithmetic"])
         self.assertEqual(ast.dump(tree),old)
-        actual=[]
+        actual={}
         for candidate,meta in variants:
             env={}
             exec(compile(ast.fix_missing_locations(candidate),"<synthetic>","exec"),env)
-            actual.append(tuple(env["f"](x) for x in (-1,0,1)))
-        self.assertEqual(actual,[ (0,1,-1),(-3,-2,0),(1,2,2)])
+            actual[meta["before"]]=tuple(env["f"](x) for x in (-1,0,1))
+        self.assertEqual(actual,{"x > 0":(0,1,-1),"x + 1":(-3,-2,0),"x - 2":(1,2,2)})
         self.assertEqual(list(expression_mutants(tree,limit=1))[0][1],variants[0][1])
     def test_conditional_expression_and_no_arbitrary_code(self):
         tree=ast.parse("def f(x,y):\n    return x + y if x else y\n")
