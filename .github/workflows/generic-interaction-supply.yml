@@ -2,7 +2,7 @@ name: Generic higher-order synthetic contracts
 on:
   push:
     branches: [lc-generic-supply]
-    paths: ['generic_interaction_supply.py','test_generic_interaction_supply.py','generic_graph_supply_bank.py','test_generic_graph_supply_bank.py','phase0_generic_dag.py','.github/workflows/generic-interaction-supply.yml']
+    paths: ['generic_interaction_supply.py','test_generic_interaction_supply.py','generic_graph_supply_bank.py','generic_validation_supply.py','test_generic_validation_supply.py','test_generic_graph_supply_bank.py','phase0_generic_dag.py','.github/workflows/generic-interaction-supply.yml']
 permissions:
   contents: read
 jobs:
@@ -20,4 +20,4 @@ jobs:
         with:
           python-version: '3.12'
       - name: Synthetic observation contracts
-        run: python -B -m unittest -v test_generic_interaction_supply test_generic_graph_supply_bank
+        run: python -B -m unittest -v test_generic_interaction_supply test_generic_graph_supply_bank test_generic_validation_supply
